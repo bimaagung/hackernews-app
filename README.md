@@ -46,3 +46,25 @@ To integrate the Laravel framework with the Golang service, follow these steps:
 5. Integrate the Golang service into the Laravel application by making HTTP requests to the Golang service for data processing. Use the appropriate endpoints and payloads as defined in the Golang service's API documentation.
 
 6. Handle the responses from the Golang service in the Laravel application and render the data to the user interface.
+
+## Design Decision
+
+For the Hackernews service built using Golang, I decided to implement the clean architecture. This decision was based on the fact that clean architecture provides a clear and organized structure, making it easy to scale and maintain the code. Clean architecture also enables the separation of business logic, infrastructure, and the use of the dependency inversion principle.
+
+In the case of the Laravel application, I chose to use a simpler architecture, focusing on the existing MVC (Model-View-Controller) pattern provided by Laravel. This approach allows for faster and simpler development for this project.
+
+## Challenges Faced
+
+1. Dealing with a large and continuous data API required an efficient approach. To address this, I implemented asynchronous handling in Golang, allowing the application to fetch data faster.
+
+2. One challenge was improving response performance using caching. I opted to use Memcached as the caching solution for this project. However, there were challenges in properly configuring and managing the cache to ensure consistent and accurate cached data.
+
+3. Another challenge faced was the tight deadline for this project. In tackling this challenge, I focused on prioritizing and ensuring that core features functioned well within the given timeframe.
+
+## Potential Improvements
+
+1. One potential improvement is to switch the communication protocol from HTTP to gRPC. gRPC provides lower latency compared to HTTP and enables more efficient communication between services.
+
+2. To enhance caching management, considering the use of Redis as the caching solution. Redis has built-in clustering features, allowing for horizontal data distribution across multiple Redis nodes. This can improve cache scalability and performance.
+
+Through careful design evaluation, overcoming challenges faced, and exploring potential solution improvements, this project can continue to be developed and enhanced to deliver a better and more efficient application.
