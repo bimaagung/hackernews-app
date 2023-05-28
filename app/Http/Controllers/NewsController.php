@@ -9,7 +9,7 @@ class NewsController extends Controller
 {
     public function index() {
         $client = new Client();
-        $response = $client->get('http://localhost:8080/news');
+        $response = $client->get('http://localhost:8080/api/news');
         $data = $response->getBody()->getContents();
         $data = json_decode($data, true);
         if ($data === null) {
