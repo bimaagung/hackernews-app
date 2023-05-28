@@ -35,7 +35,7 @@
       border-radius: 4px;
       border: none;
       font-size: 16px;
-      width: 300px;
+      width: 640px;
     }
 
     .sort-container {
@@ -143,57 +143,51 @@
     <input type="search" id="search-input" placeholder="Search articles...">
   </div>
   <div class="sort-container">
-    <select id="sort-select">
-      <option value="all">All</option>
-      <option value="24h">Last 24h</option>
-      <option value="week">Past Week</option>
-      <option value="month">Past Month</option>
-    </select>
   </div>
   <div class="card-container">
-    <div class="card">
-      <i class="fas fa-arrow-up arrow"></i>
-      <div class="content">
-        <a href="https://example.com/article1" class="title">Article 1</a>
-        <div class="metadata">
-          <p class="url">example.com</p>
-          <p class="total-comments"><i class="fas fa-comments"></i> 123</p>
+    @foreach ($items as $item)
+        @php
+            $url = "https://www.masteringemacs.org/article/how-to-get-started-tree-sitter";
+            $parsedUrl = parse_url($url);
+            $trimmedUrl = $parsedUrl['host'];
+
+            $timestamp = 1685297933;
+            $currentTime = time();
+            $timeDiff = $currentTime - $timestamp;
+
+            if ($timeDiff < 60) {
+                $timeAgo = $timeDiff . ' seconds ago';
+            } elseif ($timeDiff < 3600) {
+                $minutes = floor($timeDiff / 60);
+                $timeAgo = $minutes . ' minute' . ($minutes > 1 ? 's' : '') . ' ago';
+            } elseif ($timeDiff < 86400) {
+                $hours = floor($timeDiff / 3600);
+                $timeAgo = $hours . ' hour' . ($hours > 1 ? 's' : '') . ' ago';
+            } elseif ($timeDiff < 2592000) {
+                $days = floor($timeDiff / 86400);
+                $timeAgo = $days . ' day' . ($days > 1 ? 's' : '') . ' ago';
+            } else {
+                $months = floor($timeDiff / 2592000);
+                $timeAgo = $months . ' month' . ($months > 1 ? 's' : '') . ' ago';
+            }
+        @endphp
+
+        <div class="card">
+            <i class="fas fa-arrow-up arrow"></i>
+            <div class="content">
+                <a href="https://example.com/article1" class="title">{{ $item['title'] }}</a>
+                <div class="metadata">
+                    <p class="url">{{ $trimmedUrl }}</p>
+                    <p class="total-comments"><i class="fas fa-comments"></i>{{ $item['total_comment'] }}</p>
+                </div>
+                <div class="metadata">
+                    <p class="by"><i class="fas fa-user"></i> {{ $item['by'] }}</p>
+                    <p class="time"><i class="fas fa-clock"></i>{{ $timeAgo  }}</p>
+                </div>
+            </div>
         </div>
-        <div class="metadata">
-          <p class="by"><i class="fas fa-user"></i> John Doe</p>
-          <p class="time"><i class="fas fa-clock"></i> 2 hours ago</p>
-        </div>
-      </div>
-    </div>
-    <div class="card">
-      <i class="fas fa-arrow-up arrow"></i>
-      <div class="content">
-        <a href="https://example.com/article2" class="title">Article 2</a>
-        <div class="metadata">
-          <p class="url">example.com</p>
-          <p class="total-comments"><i class="fas fa-comments"></i> 50</p>
-        </div>
-        <div class="metadata">
-          <p class="by"><i class="fas fa-user"></i> Jane Smith</p>
-          <p class="time"><i class="fas fa-clock"></i> 1 day ago</p>
-        </div>
-      </div>
-    </div>
-    <div class="card">
-      <i class="fas fa-arrow-up arrow"></i>
-      <div class="content">
-        <a href="https://example.com/article3" class="title">Article 3</a>
-        <div class="metadata">
-          <p class="url">example.com</p>
-          <p class="total-comments"><i class="fas fa-comments"></i> 87</p>
-        </div>
-        <div class="metadata">
-          <p class="by"><i class="fas fa-user"></i> Mike Johnson</p>
-          <p class="time"><i class="fas fa-clock"></i> 3 hours ago</p>
-        </div>
-      </div>
-    </div>
-  </div>
+    @endforeach
+
 
   <script>
     const searchInput = document.getElementById('search-input');
@@ -213,36 +207,6 @@
         }
       });
     });
-
-    sortSelect.addEventListener('change', function(event) {
-      const sortValue = event.target.value;
-
-      cards.forEach(function(card) {
-        const time = card.querySelector('.time').textContent;
-        const isVisible = shouldDisplayCard(sortValue, time);
-
-        card.style.display = isVisible ? 'block' : 'none';
-      });
-    });
-
-    function shouldDisplayCard(sortValue, time) {
-      const currentDate = new Date();
-      const cardDate = new Date(time);
-      const timeDiff = currentDate - cardDate;
-      const oneDay = 24 * 60 * 60 * 1000;
-      const oneWeek = 7 * oneDay;
-      const oneMonth = 30 * oneDay;
-
-      if (sortValue === '24h') {
-        return timeDiff <= oneDay;
-      } else if (sortValue === 'week') {
-        return timeDiff <= oneWeek;
-      } else if (sortValue === 'month') {
-        return timeDiff <= oneMonth;
-      } else {
-        return true;
-      }
-    }
   </script>
 </body>
 </html>
