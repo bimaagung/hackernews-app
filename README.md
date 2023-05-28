@@ -8,5 +8,5 @@ The HackerNews App is a web application built with Laravel. It provides a user-f
 
 Here are some screenshots of the HackerNews App:
 
-![Home Page](/screenshots/home.png)
+![Home Page](home.png)
 *The home page displays the top news stories from HackerNews.*
