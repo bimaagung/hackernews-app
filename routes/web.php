@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\NewsController;
 use Illuminate\Support\Facades\Route;
 
@@ -15,7 +16,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('news');
+    return view('register');
 });
 
 Route::get('/home', [NewsController::class, 'index']);
+Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('register');
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+Route::post('/register', [AuthController::class, 'register'])->name('register.submit');
