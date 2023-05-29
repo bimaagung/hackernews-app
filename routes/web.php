@@ -15,11 +15,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('register');
-});
+Route::group(['namespace' => 'App\Http\Controllers'], function()
+{   
+    Route::group(['middleware' => ['guest']], function() {
+        Route::get('/register', 'RegisterController@show')->name('register.show');
+        Route::post('/register', 'RegisterController@register')->name('register.perform');
+        Route::get('/', 'LoginController@show')->name('login.show');
+        Route::post('/', 'LoginController@login')->name('login.perform');
 
-Route::get('/home', [NewsController::class, 'index']);
-Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('register');
-Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
-Route::post('/register', [AuthController::class, 'register'])->name('register.submit');
+    });
+
+    Route::group(['middleware' => ['auth']], function() {
+        Route::get('/logout', 'LogoutController@perform')->name('logout.perform');
+        Route::get('/home', 'HomeController@index')->name('home.index');
+        Route::get('/home/detail/{id}', 'DetailController@index')->name('detail.index');
+    });
+});
