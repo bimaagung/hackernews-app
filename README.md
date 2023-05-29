@@ -13,3 +13,6 @@ Here are some screenshots of the HackerNews App:
 ![Home Page](home.png)
 *The home page displays the top news stories from HackerNews.*
 
+![Home Page](detail.png)
+*The detail page displays the detail story from HackerNews.*
+
